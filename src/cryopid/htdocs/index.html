@@ -1,0 +1,171 @@
+<!DOCTYPE HTML PUBLIC " -//W3C//DTD HTML 4.01 Transitional//EN" "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="EN">
+<head>
+<title>CryoPID - A Process Freezer for Linux</title>
+<link rel="stylesheet" href="style.css">
+<meta name="generator" content="Vim 6.1 and a Makefile :)">
+</head>
+
+<body>
+<table width="100%" border="0">
+ <tr>
+  <td valign="top">
+<h1>CryoPID - A Process Freezer for Linux</h1>
+
+<p>CryoPID allows you to capture the state of a running process in Linux
+and save it to a file. This file can then be used to resume the process
+later on, either after a reboot or even on another machine.</p>
+
+<h2><a name="status">Status</a></h2>
+
+<p>CryoPID is a fairly new project, spawned out of a discussion on the
+<a href="http://swsusp.sf.net/">Software suspend</a> mailing list about
+the complexities of suspending and resuming individual processes.</p>
+
+<p>Currently, there are two programs that do the work. The first is
+<b>savestate</b> that captures a running process to a file. It is written in C
+and probably relatively portable between Linuxes. The second program is
+<b>resume</b> which takes the file saved previously and restores the program.
+It is currently written in assembly, highly i386-Linux specific, and error
+reporting is non-existent.</p>
+
+<p>The current aim is to rewrite the resumer in C to allow for portability and
+easier extensibility.</p>
+
+<h2><a name="features">Features</a></h2>
+<p>Current features are:</p>
+
+<ul>
+ <li>Works! (except for the caveats above)</li>
+ <li>Can run as an ordinary user! (no root privileges needed)</li>
+ <li>Can start &amp; stop a process multiple times</li>
+ <li>Can migrate processes between machines!!!! (tested!)
+   (either by saving all libraries to the image, or ensuring libraries are
+   identical on both machines).</li>
+
+</ul>
+
+<h2><a name="issues">Known Issues</a></h2>
+<p>Current known issues are (brain dump from mailing list):</p>
+<ul>
+
+  <li>The PID will change upon resume. Possible solutions:
+  <ul>
+    <li>Virtualized pids with some liberal use of LD_PRELOADs.</li>
+    <li>Notice the PID is free and then keep on fork()'ing until you get that PID (ICK!)</li>
+    <li>Get some help from kernel space to request a given PID</li>
+  </ul>
+  </li>
+
+  <li>
+    Open file handles are a work in progess. Support for capturing the file
+    descriptors is there, but not their offsets yet (involve ptracing and inserting some code to run an lseek()). The resuming process doesn't yet handle it,
+    again not very hard, but the C rewrite has priority.
+  </li>
+
+  <li>
+    Sockets - no idea how on earth to handle open connections. Listening sockets
+    are probably possible though.
+  </li>
+
+  <li>
+     Terminal status is not restored. Some applications (eg, vim) can
+     do this for you though. Doing it externally would be nice(tm).
+  </li>
+
+  <li>
+     One process only (haven't tested on threads, and it can't capture more
+     than one process at a time yet).
+  </li>
+
+  <li>
+    Process name in ps gets garbled upon resume. Haven't figured this
+    out yet either, though probably isn't difficult.
+  </li>
+
+  <li>
+     PAX must be turned off if you have it (chpax -xperms &lt;target program&gt;)
+  </li>
+
+  <li>
+    Executables &amp; Libraries must be identical on resumed state as
+    suspended state.
+  </li>
+
+  <li>
+    It runs in memory location 0x00100000 so if a real process wants
+    to use this location, it will choke. Hopefully not too many do
+    though.
+  </li>
+
+  <li>
+    Behaviour when interrupted mid-syscall is undefined (I haven't
+    figured out what actually happens yet :)
+  </li>
+
+  <li>
+    Really unreliable on 2.6.... working on it. If anybody knows what the memory segment below is, please contact me :)<br>
+<pre>ffffd000-ffffe000 ---p 00000000 00:00 0 </pre>
+  </li>
+
+  <li> 
+    Resumer gives next to no error reporting.
+  </li>
+
+  <li>
+    Very undocumented.
+  </li>
+  
+</ul>
+
+<h2><a name="download">Downloading it</a></h2>
+
+<p>So by this point you're probably saying, "Yeah right, that's impossible".
+Show me. Files are currently at
+<a href="http://dagobah.ucc.asn.au/wacky/sp-0.2.tar.gz">http://dagobah.ucc.asn.au/wacky/sp-0.2.tar.gz</a>
+until the next release.
+
+<h2><a name="list">Mailing List</a></h2>
+
+A mailing list for the discussion of CryoPID has been setup.
+<a href="http://lists.berlios.de/mailman/listinfo/cryopid-devel">Click here to
+go to the subscription page</a>.
+  </td>
+  <td width="130" valign="top">
+   <div id="NavBar">
+   <!--<img src="logo.jpg" width="130" height="97" alt="Frozen Penguins"><br>-->
+   <!--<img src="tuxsicle.jpg" width="130" alt="Frozen Penguins"><br>-->
+   <p class="sideheader">
+   CryoPID<br>
+   for<br>
+   Linux<br>
+   </p>
+   <ul>
+    <li><a href="index.html" title="A brief introduction">Home</a></li>
+    <li><a href="#status" title="Status">Status</a></li>
+    <li><a href="#features" title="Features">Features</a></li>
+    <li><a href="#issues" title="Known Issues">Known Issues</a></li>
+    <li><a href="#download" title="Download">Download</a></li>
+    <li><a href="#list" title="Mailing List">Mailing List</a></li>
+    <!--<li>Screenshots</li>-->
+   </ul>
+   <hr width="80%">
+   Hosting thanks to
+   <a href="http://developer.berlios.de">
+   <img src="http://developer.berlios.de/bslogo.php?group_id=1579&type=1" width="124" height="32" border="0" alt="BerliOS Logo"></A>
+   </div>
+  </td>
+ </tr>
+ <tr>
+  <td colspan="2">
+   <hr>
+   <address>
+   Last updated: Thu, 18 Mar 2004 01:48:24 +0800<br><br>
+   Copyright &copy; 2003 <a href="mailto:&#98;&#45;&#99;&#112;&#119;&#101;&#98;&#64;&#98;&#108;&#97;&#99;&#107;&#104;&#97;&#109;&#46;&#99;&#111;&#109;&#46;&#97;&#117;">Bernard B</a><br>
+   </address>
+  </td>
+ </tr>
+</table>
+
+</body>
+</html>

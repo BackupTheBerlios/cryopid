@@ -1,0 +1,138 @@
+/* blatantly stolen from the linux.conf.au 2003 website style sheet       */
+/* which was a modified version of the UWA standard style sheet from      */
+/* http://www.uwa.edu.au/                                                 */
+/*                                                                        */
+/* linux.conf.au 2004 is coming soon! be there! http://conf.linux.org.au/ */
+
+BODY {
+	BACKGROUND-COLOR: white;
+	COLOR: black;
+	FONT-FAMILY: verdana, arial, helvetica, sans-serif;
+	FONT-STYLE: normal;
+	FONT-VARIANT: normal;
+	FONT-WEIGHT: normal;
+	FONT-SIZE: small;
+	/*BACKGROUND-IMAGE: url("swsusp-logo.jpg");*/
+	BACKGROUND-REPEAT: repeat-x;
+	BACKGROUND-ATTACHMENT: fixed;
+}
+
+P {
+	FONT-FAMILY: verdana, arial, helvetica, sans-serif;
+	FONT-SIZE: small;
+	COLOR: black;
+	TEXT-ALIGN: justify;
+	BACKGROUND-COLOR: transparent;
+}
+
+LI {
+	FONT-FAMILY: verdana, arial, helvetica, sans-serif;
+	FONT-SIZE: small;
+	COLOR: black;
+	TEXT-ALIGN: justify;
+	BACKGROUND-COLOR: transparent;
+}
+
+P.sideheader {
+	FONT-FAMILY: helvetica, arial, sans-serif;
+	/* FONT-FAMILY: serif; */
+	FONT-WEIGHT: bolder;
+	FONT-SIZE: medium;
+	BACKGROUND-COLOR: #8888EE;
+	COLOR:  #333333;
+	TEXT-SHADOW: 0.2em 0.2em;
+	TEXT-ALIGN: center;
+	PADDING-TOP: 0.4em;
+	PADDING-BOTTOM: 0.4em;
+	MARGIN-TOP: 0;
+}
+
+P.Note {
+	BORDER: solid black;
+	BACKGROUND-COLOR: yellow;
+	COLOR: blue;
+	TEXT-ALIGN: center;
+	FONT-SIZE: large;
+	MARGIN-LEFT: 5%;
+	MARGIN-RIGHT: 5%;
+	PADDING-TOP: 0.4em;
+	PADDING-BOTTOM: 0.4em;
+	PADDING-LEFT: 0.4em;
+	PADDING-RIGHT: 0.4em;
+}
+
+
+H1 {
+	TEXT-ALIGN: center;
+	FONT-FAMILY: verdana, arial, helvetica, sans-serif;
+	FONT-SIZE: large;
+	BACKGROUND-COLOR: #8888EE;
+	COLOR: #333333;
+	TEXT-SHADOW: 0.2em 0.2em;
+	PADDING-TOP: 0.4em;
+	PADDING-BOTTOM: 0.4em;
+	MARGIN-TOP: 0;
+}
+
+@print {
+	H1 {
+	COLOR: black;
+	BACKGROUND-COLOR: white;
+	}
+}
+
+H2	{
+	FONT-FAMILY: verdana, arial, helvetica, sans-serif;
+	FONT-SIZE: medium;
+	COLOR: #8888EE;
+}
+
+H3	{
+	FONT-FAMILY: verdana, arial, helvetica, sans-serif;
+	FONT-SIZE: small;
+	COLOR: #222277;
+}
+
+BLOCKQUOTE {
+	BACKGROUND-COLOR: #DDDDDD;
+	FONT-FAMILY: courier, courier new, monospace;
+	COLOR: #000000;
+}
+
+BLOCKQUOTE.NotAnEmail {
+	BACKGROUND-COLOR: #DDDDDD;
+	FONT-FAMILY: verdana, arial, helvetica, sans-serif;
+	COLOR: #000000;
+}
+
+A:link {
+	COLOR: #440044;
+	BACKGROUND-COLOR: transparent;
+	TEXT-DECORATION: underline
+}
+
+A:visited {
+	COLOR: #505000;
+	BACKGROUND-COLOR: transparent;
+	TEXT-DECORATION: underline
+}
+
+A:hover {
+	COLOR: black;
+	BACKGROUND-COLOR: yellow;
+	TEXT-DECORATION: underline;
+}
+
+ADDRESS {
+	FONT-FAMILY: verdana, arial, helvetica, sans-serif;
+	TEXT-ALIGN: right;
+	FONT-SIZE: x-small;
+	COLOR: #222222;
+}
+
+#NavBar li {
+	margin: 0;
+	padding: 0;
+	margin-left: -1.2em;
+	font-size: 90%;
+}

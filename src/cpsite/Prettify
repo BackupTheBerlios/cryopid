@@ -1,0 +1,62 @@
+#!/usr/bin/perl -w
+
+%SUBSTS = ();
+
+sub printline {
+	my $line = shift;
+	foreach $key (keys %SUBSTS) {
+		$val = $SUBSTS{$key};
+		$line =~ s/###$key###/$val/g;
+	}
+	print $line;
+}
+
+sub dumpfile {
+	my ($file,$dh) = @_;
+	open(DUMPEE, $file)||die "Couldn't open $file";
+	while (<DUMPEE>) { 
+		if (defined $dh && /\Q<\/HEAD>\E/i) { printline $dh; }
+		printline $_;
+	}
+	close DUMPEE;
+}
+
+# other magic words:
+# if we're reading from a file, use the date on the file.
+# if we're reading from stdin, use the current date.
+$DATEFILE = "";
+$DATEFILE = " -r ".$ARGV[0] if $#ARGV >= 0;
+$ENV{"TZ"} = "AWST-8";
+$SUBSTS{"DATE"} = `date -R$DATEFILE`;
+chop $SUBSTS{"DATE"};
+
+$_=<>; # first line contains magic directives
+chop $_;
+foreach (split /\s*;\s*/) {
+	my ($cmd, $val) = split /\s*=\s*/;
+	$SUBSTS{$cmd} = $val;
+}
+
+# the LINUXDOC keyword means we take care merging the files
+# (ie, the head is moved into the head, and body into the body)
+$dochead = "";
+if (exists $SUBSTS{"LINUXDOC"}) {
+	# read in excess head
+	while (<>) {
+		last if s/\Q<\/HEAD>\E.*//i;
+		$dochead .= $_;
+	}
+	while (<>) { last if /\Q<BODY>\E/i; }
+}
+
+# the RAW keyword makes up dump the file out without changes
+# (except for stripping the top line)
+if (exists $SUBSTS{"RAW"}) {
+    while (<>) { print; }
+    exit(0);
+}
+
+# process the relevant files
+dumpfile "top.html", $dochead;
+while (<>) { printline $_; }
+dumpfile "bottom.html";
